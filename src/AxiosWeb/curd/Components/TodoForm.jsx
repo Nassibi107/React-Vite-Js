@@ -2,20 +2,25 @@
 import { useForm } from 'react-hook-form'
 import TodoModel from '../Models/TodoModels';
 import API from '../Api/TodoApi.js'
-function TodoForm() {
+import { useState } from 'react';
+function TodoForm({onCreate}) {
 
+    const [id, setid] = useState(3);
    const submitForm = (data) => {
-       const todo  = new TodoModel(data.title,data.completed);
+    setid(prv => prv  + 1);
+    console.log(id);
+ const todo  = new TodoModel(data.title,data.completed);
        API.create(todo).then (
          res => console.log(res)
        )
+       onCreate(data)
 
    }
-
    const {register,handleSubmit,formState} = useForm();
    const {errors,isLoading,isUpdate,isDirty,isValid} = formState
    return (
       <>
+  
       <h2>{isUpdate ? 'Update' : 'Create'} todo</h2>
       <hr/>
       {
